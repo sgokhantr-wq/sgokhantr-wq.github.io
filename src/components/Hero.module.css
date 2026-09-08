@@ -24,3 +24,5 @@
   .h1 { max-width: none; }
   .accent { display: inline; }
 }
+
+.nowrap { white-space: nowrap; }

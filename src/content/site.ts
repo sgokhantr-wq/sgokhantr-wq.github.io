@@ -6,8 +6,6 @@ export const SITE = {
   email: 'gokusahin@gmail.com',
   linkedin: 'https://www.linkedin.com/in/gokhan-sahin-417b8a171',
   linkedinHandle: 'linkedin.com/in/gokhan-sahin-417b8a171',
-  github: 'https://github.com/sgokhantr-wq',
-  githubHandle: 'github.com/sgokhantr-wq',
   url: 'https://sgokhantr-wq.github.io/',
   resumeFile: '/resume.pdf',
   resumeDownloadName: 'Gokhan_Sahin_Resume.pdf',

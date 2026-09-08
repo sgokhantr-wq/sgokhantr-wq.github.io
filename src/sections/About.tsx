@@ -28,9 +28,6 @@ export function About() {
               <a className="btn btn--ghost" href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
                 LinkedIn
               </a>
-              <a className="btn btn--ghost" href={SITE.github} target="_blank" rel="noopener noreferrer">
-                GitHub
-              </a>
             </div>
             <p className={s.withheld}>{ABOUT.withheld}</p>
           </div>

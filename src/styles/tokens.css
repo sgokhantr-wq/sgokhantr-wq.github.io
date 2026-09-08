@@ -1,60 +1,116 @@
-/* Design tokens — "Continuation Sheet".
-   Light is the bare :root (steel-biased paper). Dark is the carbon copy, resolved by
-   prefers-color-scheme unless the DAY/NIGHT stamp has stored an explicit choice. */
+/* Design tokens.
+   A light concrete canvas, white product surfaces, safety orange used at scale.
+   The semantic colours belong to the product screens: a dispatch board without
+   status colour is not a dispatch board. */
 :root {
   color-scheme: light;
-  --sheet: #ECEFF3;       /* page ground */
-  --galvanized: #DDE3EA;  /* panels, header bands, hover rows, chip tint 1 */
-  --hairline: #C5CDD6;    /* 1px rules, cell borders, ledger ruling, chip tint 2 */
-  --zinc: #AEB9C5;        /* chip tint 3 */
-  --weld: #5C6774;        /* column heads, captions (mono caps >= 12px) */
-  --slate: #3A4451;       /* secondary text */
-  --ink: #171C23;         /* body + display text */
-  --marking: #E64F00;     /* stamps, the margin rule; non-text or >= 24px only */
-  --accent: #B5380B;      /* links, focus ring, small stamped caps, BLOCKED verdicts */
+
+  --bg: #F1F3F6;          /* page canvas */
+  --bg-2: #E7EBF1;        /* alternating band */
+  --surface: #FFFFFF;     /* cards and product screens */
+  --surface-2: #F4F6F9;   /* screen toolbars, table heads */
+  --line: #D5DBE4;        /* hairlines */
+  --line-2: #E4E9EF;      /* inner grid lines */
+  --ink: #0F1620;         /* headings and body */
+  --muted: #5A6779;       /* secondary text (5.4:1 on canvas) */
+  --faint: #8A94A6;       /* captions on white only */
+
+  --brand: #E8590C;       /* safety orange: buttons, highlights, large fields */
+  --brand-deep: #C2410C;  /* orange at text size (5.2:1 on canvas) */
+  --on-brand: #FFFFFF;
+
+  /* product status palette, used inside screens */
+  --sched: #1D4ED8;       /* scheduled */
+  --sched-soft: #DBE5FF;
+  --risk: #B45309;        /* at risk */
+  --risk-soft: #FCEBD3;
+  --blocked: #C2261D;     /* blocked */
+  --blocked-soft: #FBDDDA;
+  --done: #5A6779;        /* finished */
+  --done-soft: #E6EAF0;
+  --ai: #0E7490;          /* the AI layer */
+  --ai-soft: #D5EDF3;
+
+  /* job colours for the board: distinct hues, assigned by graph colouring */
+  --j1: #1D4ED8; --j2: #0E7490; --j3: #6D28D9; --j4: #B45309; --j5: #BE185D; --j6: #0F766E;
+
+  --shadow-1: 0 1px 2px rgba(15, 22, 32, 0.06), 0 1px 1px rgba(15, 22, 32, 0.04);
+  --shadow-2: 0 2px 4px rgba(15, 22, 32, 0.05), 0 12px 28px rgba(15, 22, 32, 0.10);
+  --shadow-3: 0 4px 8px rgba(15, 22, 32, 0.06), 0 28px 60px rgba(15, 22, 32, 0.16);
+
+  --r-screen: 12px;
+  --r-card: 10px;
+  --r-chip: 5px;
+  --r-btn: 8px;
 
   --font-display: 'Big Shoulders Display Variable', 'Bahnschrift Condensed', 'Arial Narrow',
     'Franklin Gothic Medium', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'B612 Mono', 'IBM Plex Mono', Consolas, 'Liberation Mono', monospace;
 
-  --container: 1200px;
+  --container: 1160px;
   --gutter: 24px;
-  --margin-col: 88px;   /* the ledger margin column on >= 1024px */
-  --rule-x: 44px;       /* where the 2px margin rule sits inside that column */
-  --ruling: 32px;       /* ledger ruling pitch inside document panels */
-  --nav-h: 44px;
-  --motion: 1;
+  --nav-h: 60px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --sheet: #1B2129;
-    --galvanized: #262E38;
-    --hairline: #3A4450;
-    --zinc: #4E5A68;
-    --weld: #93A0AE;
-    --slate: #C0C9D3;
-    --ink: #ECEFF3;
-    --marking: #E64F00;
-    --accent: #FF7A2E;
+    --bg: #0E1218;
+    --bg-2: #141A22;
+    --surface: #171D26;
+    --surface-2: #1E2631;
+    --line: #2B3544;
+    --line-2: #232C38;
+    --ink: #EDF1F7;
+    --muted: #9AA6B8;
+    --faint: #7B8798;
+    --brand: #FF6B1A;
+    --brand-deep: #FF8642;
+    --on-brand: #14100C;
+    --sched: #7BA2FF;
+    --sched-soft: #1B2740;
+    --risk: #E4A34C;
+    --risk-soft: #33260F;
+    --blocked: #F08279;
+    --blocked-soft: #3A1D1A;
+    --done: #9AA6B8;
+    --done-soft: #232C38;
+    --ai: #4FC3DC;
+    --ai-soft: #0E2A33;
+    --j1: #7BA2FF; --j2: #4FC3DC; --j3: #B79BFA; --j4: #E4A34C; --j5: #F58AB4; --j6: #5FCBBC;
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.45), 0 14px 30px rgba(0, 0, 0, 0.4);
+    --shadow-3: 0 6px 14px rgba(0, 0, 0, 0.5), 0 30px 70px rgba(0, 0, 0, 0.55);
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --sheet: #1B2129;
-  --galvanized: #262E38;
-  --hairline: #3A4450;
-  --zinc: #4E5A68;
-  --weld: #93A0AE;
-  --slate: #C0C9D3;
-  --ink: #ECEFF3;
-  --marking: #E64F00;
-  --accent: #FF7A2E;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  :root { --motion: 0; }
+  --bg: #0E1218;
+  --bg-2: #141A22;
+  --surface: #171D26;
+  --surface-2: #1E2631;
+  --line: #2B3544;
+  --line-2: #232C38;
+  --ink: #EDF1F7;
+  --muted: #9AA6B8;
+  --faint: #7B8798;
+  --brand: #FF6B1A;
+  --brand-deep: #FF8642;
+  --on-brand: #14100C;
+  --sched: #7BA2FF;
+  --sched-soft: #1B2740;
+  --risk: #E4A34C;
+  --risk-soft: #33260F;
+  --blocked: #F08279;
+  --blocked-soft: #3A1D1A;
+  --done: #9AA6B8;
+  --done-soft: #232C38;
+  --ai: #4FC3DC;
+  --ai-soft: #0E2A33;
+  --j1: #7BA2FF; --j2: #4FC3DC; --j3: #B79BFA; --j4: #E4A34C; --j5: #F58AB4; --j6: #5FCBBC;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.45), 0 14px 30px rgba(0, 0, 0, 0.4);
+  --shadow-3: 0 6px 14px rgba(0, 0, 0, 0.5), 0 30px 70px rgba(0, 0, 0, 0.55);
 }

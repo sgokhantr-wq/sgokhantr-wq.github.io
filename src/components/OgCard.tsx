@@ -1,64 +1,52 @@
-import { SITE } from '../content/site'
-import { MEASURED_STAMP, TOTALS } from '../content/totals'
+import { HERO_STATS, SITE } from '../content/site'
 
-/** The 1200×630 Open Graph card, rendered by scripts/og-render.mjs. Light theme only. */
+/** The 1200×630 Open Graph card, rasterized by scripts/og-render.mjs. Light theme only. */
 export function OgCard() {
-  const four = TOTALS.slice(0, 4)
   return (
     <div
       style={{
         width: 1200,
         height: 630,
         position: 'relative',
-        background: 'var(--sheet)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '52px 68px 44px',
+        background: 'var(--bg)',
         color: 'var(--ink)',
         overflow: 'hidden',
-        backgroundImage:
-          'repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--hairline) 31px, var(--hairline) 32px)',
       }}
     >
-      <div style={{ position: 'absolute', left: 88, top: 0, bottom: 0, width: 2, background: 'var(--marking)' }} />
-      <div style={{ position: 'absolute', left: 132, top: 56, right: 72 }}>
-        <div className="head" style={{ fontSize: 16, marginBottom: 12 }}>
-          Contractor
-        </div>
-        <div style={{ font: '900 148px/0.92 var(--font-display)', textTransform: 'uppercase', letterSpacing: '0.005em' }}>
-          {SITE.name}
-        </div>
-        <div style={{ font: '600 30px/1.2 var(--font-body)', color: 'var(--slate)', marginTop: 14 }}>{SITE.role}</div>
-        <div style={{ marginTop: 34, border: '1px solid var(--hairline)', padding: '12px 18px 16px', background: 'var(--sheet)' }}>
-          <div className="head" style={{ fontSize: 14, marginBottom: 8 }}>
-            Description of work
-          </div>
-          <div style={{ font: '700 44px/1.05 var(--font-display)' }}>{SITE.descriptionOfWork}</div>
-        </div>
-      </div>
       <div
+        aria-hidden="true"
         style={{
           position: 'absolute',
-          left: 132,
-          right: 72,
-          bottom: 48,
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          border: '1px solid var(--ink)',
-          background: 'var(--sheet)',
+          inset: '-30% -10% auto -10%',
+          height: '70%',
+          background: 'radial-gradient(700px 340px at 18% 40%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 70%)',
         }}
-      >
-        {four.map((t, i) => (
-          <div key={t.label} style={{ padding: '12px 18px 14px', borderRight: i < 3 ? '1px solid var(--hairline)' : 0 }}>
-            <div className="head" style={{ fontSize: 14, marginBottom: 10 }}>
-              {t.label}
+      />
+      <div style={{ position: 'relative' }}>
+        <div style={{ font: '700 18px/1 var(--font-mono)', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--brand-deep)' }}>
+          {SITE.role}
+        </div>
+        <div style={{ font: '800 62px/1 var(--font-display)', marginTop: 18, maxWidth: '20ch' }}>
+          {SITE.headline} <span style={{ color: 'var(--brand-deep)' }}>{SITE.headlineAccent}</span>
+        </div>
+        <div style={{ font: '600 23px/1.4 var(--font-body)', color: 'var(--muted)', marginTop: 16, maxWidth: '52ch' }}>
+          {SITE.name} · a field-service ERP for a commercial HVAC &amp; mechanical contractor
+        </div>
+      </div>
+
+      <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: 'var(--line)', border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden' }}>
+        {HERO_STATS.map((st) => (
+          <div key={st.l} style={{ background: 'var(--surface)', padding: '14px 20px 16px' }}>
+            <div style={{ font: '800 42px/1 var(--font-display)' }}>{st.v}</div>
+            <div style={{ font: '700 13px/1.3 var(--font-mono)', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--muted)', marginTop: 6 }}>
+              {st.l}
             </div>
-            <div style={{ font: '700 40px/1 var(--font-mono)', textAlign: 'right' }}>{t.value}</div>
           </div>
         ))}
-      </div>
-      <div
-        className="stamp stamp--lg"
-        style={{ position: 'absolute', right: 40, bottom: 118, background: 'var(--sheet)' }}
-      >
-        {MEASURED_STAMP.label}
       </div>
     </div>
   )

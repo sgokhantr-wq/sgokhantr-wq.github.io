@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { DocumentFrame } from '../../components/DocumentFrame'
+import { Screen } from '../../components/Screen'
 import { useInView } from '../../lib/useInView'
 import { useReducedMotion } from '../../lib/useReducedMotion'
-import { POOL, SEED, STAGES, TIEOUTS, addSeconds, type GuardRow } from './data'
+import { POOL, SEED, STAGES, addSeconds, type GuardRow } from './data'
 import s from './GuardLog.module.css'
 
 const MAX = 7
@@ -10,7 +10,10 @@ const PERIOD = 6_000
 
 type Row = GuardRow & { key: number }
 
-/** The SQL guard's audit trail (a slow ticker), the guard stages, and the tie-out register. */
+const verdictChip = (v: GuardRow['verdict']) =>
+  v === 'ALLOWED' ? 'chip chip--sched' : v === 'BLOCKED' ? 'chip chip--blocked' : 'chip chip--risk'
+
+/** The SQL guard's audit trail, ticking, with the stages every query passes through. */
 export default function GuardLog() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref)
@@ -26,8 +29,7 @@ export default function GuardLog() {
       const key = counter.current++
       setRows((prev) => {
         const last = prev[prev.length - 1]
-        const next: Row = { ...src, time: addSeconds(last.time, src.delta), key }
-        return [...prev, next].slice(-MAX)
+        return [...prev, { ...src, time: addSeconds(last.time, src.delta), key }].slice(-MAX)
       })
       setFreshKey(key)
     }, PERIOD)
@@ -36,16 +38,15 @@ export default function GuardLog() {
 
   return (
     <div ref={ref}>
-      <DocumentFrame
-        title="SQL guard · audit trail"
+      <Screen
+        title="SQL guard"
         meta="every attempt logged"
-        ruled={false}
         scroll
-        label="SQL guard audit trail, guard stages and tie-out register"
-        caption="31 adversarial cases re-run after every guard change · a standing failure is how a real regression hides · tie-outs are the regression tests"
+        label="The SQL guard's audit trail and the stages a query passes through"
+        foot={<span>31 adversarial cases, re-run after every change to the guard</span>}
       >
         <div className={s.wrap}>
-          <table className={`ledger ledger--dense ${s.table}`}>
+          <table className={s.table}>
             <thead>
               <tr>
                 <th scope="col">Time</th>
@@ -55,9 +56,6 @@ export default function GuardLog() {
                 <th scope="col" className={s.num}>
                   Rows
                 </th>
-                <th scope="col" className={s.num}>
-                  ms
-                </th>
               </tr>
             </thead>
             <tbody>
@@ -65,48 +63,25 @@ export default function GuardLog() {
                 <tr key={r.key} className={r.key === freshKey ? s.fresh : undefined}>
                   <td className={s.time}>{r.time}</td>
                   <td>{r.role}</td>
-                  <td className={`${s.verdict} ${r.verdict !== 'ALLOWED' ? 'verdict--blocked' : ''}`}>{r.verdict}</td>
+                  <td>
+                    <span className={verdictChip(r.verdict)}>{r.verdict}</span>
+                  </td>
                   <td className={s.reason}>{r.reason}</td>
-                  <td className={s.num}>{r.rows}</td>
-                  <td className={s.num}>{r.ms}</td>
+                  <td className={s.num}>{r.rows || '—'}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-
-          <div className={s.strip}>
-            <span className="head">Guard stages</span>
+          <div className={s.stages}>
             {STAGES.map((st, i) => (
               <span key={st}>
-                {st}
-                {i < STAGES.length - 1 && <span className={s.arrow}>→</span>}
+                <span className={`${s.stage} ${i === STAGES.length - 1 ? s.stageLast : ''}`}>{st}</span>
+                {i < STAGES.length - 1 && <span className={s.sep}> › </span>}
               </span>
             ))}
           </div>
-
-          <div className={`head ${s.sub}`}>Tie-out register</div>
-          <table className={`ledger ledger--dense ${s.table}`}>
-            <thead>
-              <tr>
-                <th scope="col">Surface pair</th>
-                <th scope="col">Population</th>
-                <th scope="col" className={s.num}>
-                  Mismatches
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {TIEOUTS.map((t) => (
-                <tr key={t.pair}>
-                  <td className={s.reason}>{t.pair}</td>
-                  <td>{t.population}</td>
-                  <td className={s.num}>{t.mismatches}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
-      </DocumentFrame>
+      </Screen>
     </div>
   )
 }

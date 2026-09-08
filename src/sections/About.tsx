@@ -1,47 +1,53 @@
-import { Register } from '../components/Register'
-import { Section } from '../components/Section'
-import { SignatureBlock } from '../components/SignatureBlock'
-import { ABOUT_PARAGRAPHS, EARLIER } from '../content/earlier'
+import { ABOUT } from '../content/copy'
 import { SITE } from '../content/site'
+import { asset } from '../lib/asset'
+import s from './sections.module.css'
 
 export function About() {
   return (
-    <Section id="about" stamp="Signed" title="About, earlier work, contact">
-      <div className="grid">
-        <div className="span-8">
-          <div className="notes">
-            {ABOUT_PARAGRAPHS.map((p) => (
-              <p key={p}>{p}</p>
+    <section className="section section--band" id="about" aria-labelledby="about-t">
+      <div className="container">
+        <div className={s.about}>
+          <div>
+            <p className="eyebrow">{ABOUT.eyebrow}</p>
+            <h2 id="about-t" style={{ margin: '12px 0 20px' }}>
+              {ABOUT.title}
+            </h2>
+            {ABOUT.paragraphs.map((p) => (
+              <p key={p} className="lede" style={{ marginBottom: '1em' }}>
+                {p}
+              </p>
             ))}
+            <div className={s.contact}>
+              <a className="btn btn--primary" href={`mailto:${SITE.email}`}>
+                {SITE.email}
+              </a>
+              <a className="btn btn--ghost" href={asset(SITE.resumeFile)} download={SITE.resumeDownloadName}>
+                Résumé (PDF)
+              </a>
+              <a className="btn btn--ghost" href={SITE.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>
+              <a className="btn btn--ghost" href={SITE.github} target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            </div>
+            <p className={s.withheld}>{ABOUT.withheld}</p>
           </div>
-          <h3 style={{ margin: '32px 0 12px' }}>Earlier: tools that shipped real parts</h3>
-          <Register
-            prose
-            columns={[
-              { key: 'period', label: 'When', width: '10%' },
-              { key: 'what', label: 'What' },
-            ]}
-            rows={EARLIER.map((e) => ({
-              period: <span className="mono">{e.period}</span>,
-              what: (
-                <>
-                  <strong>{e.title}.</strong> {e.desc}
-                  <span className="evidence">{e.evidence}</span>
-                </>
-              ),
-            }))}
-          />
-          <p className="mono" style={{ marginTop: 20, fontSize: 13, color: 'var(--weld)' }}>
-            <span className="head" style={{ marginRight: 10 }}>
-              Stack
-            </span>
-            {SITE.stackLine}
-          </p>
-        </div>
-        <div className="span-4">
-          <SignatureBlock />
+
+          <div>
+            <h3 style={{ marginBottom: 16 }}>Earlier</h3>
+            <ul className={s.earlier}>
+              {ABOUT.earlier.map(([year, text]) => (
+                <li key={year}>
+                  <span className={s.year}>{year}</span>
+                  <p>{text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </Section>
+    </section>
   )
 }

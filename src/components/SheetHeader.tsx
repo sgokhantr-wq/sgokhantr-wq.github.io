@@ -1,4 +1,5 @@
 import { SITE } from '../content/site'
+import { asset } from '../lib/asset'
 import { FEEDS, MEASURED_STAMP, MIRRORED, TOTALS } from '../content/totals'
 import { Stamp } from './Stamp'
 import s from './SheetHeader.module.css'
@@ -49,7 +50,7 @@ export function SheetHeader() {
           </div>
 
           <div className={`form__box ${s.ctas}`}>
-            <a className="box-link" href={SITE.resumeFile} download={SITE.resumeDownloadName}>
+            <a className="box-link" href={asset(SITE.resumeFile)} download={SITE.resumeDownloadName}>
               <span className="head">Résumé</span>
               <strong>PDF</strong>
             </a>

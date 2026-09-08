@@ -1,4 +1,5 @@
 import { SITE } from '../content/site'
+import { asset } from '../lib/asset'
 import { WITHHELD } from '../content/withheld'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -17,7 +18,7 @@ export function SignatureBlock() {
         <div className="form__value">{SITE.measuredOn}</div>
       </div>
       <div className="form__box" style={{ padding: 0 }}>
-        <a className="box-link" href={SITE.resumeFile} download={SITE.resumeDownloadName} style={{ border: 0 }}>
+        <a className="box-link" href={asset(SITE.resumeFile)} download={SITE.resumeDownloadName} style={{ border: 0 }}>
           <span className="head">Résumé</span>
           <strong>Download PDF</strong>
         </a>

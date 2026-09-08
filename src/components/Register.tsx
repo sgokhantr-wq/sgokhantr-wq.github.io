@@ -38,7 +38,8 @@ export function Register({ columns, rows, prose, dense, caption, foot, className
         {rows.map((r, i) => (
           <tr key={i}>
             {columns.map((c) => (
-              <td key={c.key} className={c.num ? 'num' : undefined}>
+              // data-label carries the column head into the stacked phone layout, where thead is hidden
+              <td key={c.key} className={c.num ? 'num' : undefined} data-label={c.label}>
                 {r[c.key]}
               </td>
             ))}

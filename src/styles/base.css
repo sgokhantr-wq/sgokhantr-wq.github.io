@@ -110,6 +110,9 @@ p:last-child { margin-bottom: 0; }
 .doc--scrollable .doc__continues { display: block; }
 .doc__specimen { position: absolute; right: 14px; top: 44px; z-index: 2; pointer-events: none; }
 .doc__caption { padding: 8px 12px; border-top: 1px solid var(--hairline); font: italic 400 14px/1.4 var(--font-body); color: var(--slate); }
+/* A stamp strip inside a document whose body is filled edge to edge with figures,
+   where an overlaid SPECIMEN stamp would cover data. */
+.doc__mark { display: flex; justify-content: flex-end; padding: 8px 12px; border-top: 1px solid var(--hairline); }
 
 /* ---- ledger tables ---- */
 .ledger { width: 100%; border-collapse: collapse; font: 400 14px/1.45 var(--font-mono); font-variant-numeric: tabular-nums; }
@@ -122,6 +125,24 @@ p:last-child { margin-bottom: 0; }
 .ledger--dense { font-size: 13px; }
 .ledger--dense th, .ledger--dense td { padding: 6px 10px; }
 .ledger tfoot td { border-top: 1px solid var(--ink); border-bottom: 0; font-weight: 700; }
+
+/* On a phone a multi-column prose register stops being a grid and becomes stacked
+   field blocks, each cell keeping its column head as a label. Mono ledgers keep
+   their columns and scroll inside their own frame instead. */
+@media (max-width: 720px) {
+  .ledger--prose, .ledger--prose tbody, .ledger--prose tfoot, .ledger--prose tr, .ledger--prose td, .ledger--prose th { display: block; width: auto; }
+  .ledger--prose thead { display: none; }
+  .ledger--prose tr { border-bottom: 1px solid var(--ink); padding: 12px 0 14px; }
+  .ledger--prose tbody tr:hover { background: none; }
+  .ledger--prose td { border-bottom: 0; padding: 0 0 10px; }
+  .ledger--prose tr td:last-child { padding-bottom: 0; }
+  .ledger--prose td::before {
+    content: attr(data-label);
+    display: block; margin-bottom: 4px;
+    font: 700 12px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--weld);
+  }
+  .ledger--prose caption { padding-bottom: 12px; }
+}
 
 /* ---- form boxes (sheet header, signature block) ---- */
 .form { display: grid; border: 1px solid var(--hairline); border-right: 0; border-bottom: 0; }
@@ -144,6 +165,7 @@ p:last-child { margin-bottom: 0; }
 .nav__links a:hover { color: var(--accent); }
 .nav__right { display: flex; align-items: center; gap: 14px; }
 .nav__contents { display: none; position: relative; }
+.nav__contents:not([open]) .nav__links { display: none; }
 .nav__contents summary { list-style: none; cursor: pointer; font: 700 12px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
 .nav__contents summary::-webkit-details-marker { display: none; }
 .nav__contents[open] .nav__links { position: absolute; right: 0; top: 30px; flex-direction: column; gap: 0; background: var(--sheet); border: 1px solid var(--ink); min-width: 200px; }
@@ -157,9 +179,12 @@ p:last-child { margin-bottom: 0; }
 .footer { border-top: 1px solid var(--ink); padding: 14px 0 40px; }
 .footer .container { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 
-/* positioned so hung stamps sit on the margin rule */
+/* Hung stamps sit on the margin rule. A section's stamp positions against the container;
+   a sub-sheet's positions against the sub-sheet, which starts inside the container's left
+   padding, so it needs that padding subtracted to reach the same rule. */
 .section > .container { position: relative; }
-.sub-sheet__stamp { top: 44px; }
-@media (min-width: 1024px) { .sub-sheet__stamp { top: 44px; } }
 .sub-sheet__title { margin: 0 0 18px; }
 .notes__head { margin: 0 0 12px; }
+@media (min-width: 1024px) {
+  .sub-sheet__stamp { top: 42px; left: calc(var(--rule-x) - var(--margin-col) - var(--gutter)); }
+}

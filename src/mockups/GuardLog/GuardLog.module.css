@@ -1,0 +1,14 @@
+:global(.doc__scroll) > .wrap { min-width: 480px; }
+.table { font-size: 12.5px; }
+.table th, .table td { padding: 5px 8px; }
+.time { white-space: nowrap; color: var(--slate); }
+.verdict { font-weight: 700; white-space: nowrap; }
+.num { text-align: right; white-space: nowrap; }
+.reason { white-space: normal; }
+.fresh { animation: drop 160ms ease-out 1; }
+@keyframes drop { from { transform: translateY(-4px); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .fresh { animation: none; } }
+.strip { padding: 8px 10px 9px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--hairline); background: var(--galvanized); font: 400 11.5px/1.6 var(--font-mono); color: var(--ink); }
+.strip .head { display: block; margin-bottom: 3px; }
+.arrow { color: var(--weld); margin: 0 5px; }
+.sub { padding: 8px 10px 4px; }

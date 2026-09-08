@@ -1,0 +1,153 @@
+/* CashGrid — the 13-week cash forecast as a ruled sheet.
+   Every row is exactly 32px (7 + 18 + 6 + 1px rule) so the cell rules land on the
+   frame's ledger ruling; the annotated row is two ruled lines (64px). Borders sit on
+   the cells (border-collapse: separate) so the sticky first column carries its own. */
+
+table.table {
+  width: max-content;
+  border-collapse: separate;
+  border-spacing: 0;
+  font: 400 13px/18px var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* ---- column heads (the .ledger th look, right-aligned for figures) ---- */
+table.table thead th {
+  padding: 9px 8px 10px;
+  font: 700 12px/12px var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--weld);
+  background: var(--galvanized);
+  border-bottom: 1px solid var(--ink);
+  text-align: right;
+  white-space: nowrap;
+  min-width: 72px;
+}
+table.table thead th.corner {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  text-align: left;
+  padding-left: 10px;
+  border-right: 1px solid var(--hairline);
+  min-width: 0;
+}
+
+/* ---- figures ---- */
+table.table tbody td,
+table.table tfoot td {
+  padding: 7px 8px 6px;
+  border-bottom: 1px solid var(--hairline);
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+  min-width: 72px;
+}
+
+/* ---- sticky line labels ---- */
+table.table tbody th,
+table.table tfoot th {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  padding: 7px 10px 6px;
+  /* the global .ledger th is a column head (12px caps, weld); a line label is body mono in ink */
+  font: 400 13px/18px var(--font-mono);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--hairline);
+  border-right: 1px solid var(--hairline);
+  background-color: var(--sheet);
+  /* carry the sheet's ruling through the opaque sticky column */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--ruling) - 1px),
+    var(--hairline) calc(var(--ruling) - 1px),
+    var(--hairline) var(--ruling)
+  );
+}
+table.table tbody tr:hover > th {
+  background-color: var(--galvanized);
+}
+
+/* the rule under each group: receipts, then disbursements */
+table.table tbody tr:last-child > * {
+  border-bottom-color: var(--ink);
+}
+
+/* ---- Net and Cumulative ---- */
+table.table tfoot th,
+table.table tfoot td {
+  font-weight: 700;
+  border-top: 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* ---- memo line: non-cash, excluded from Net ---- */
+.memo th {
+  font-style: italic;
+  color: var(--weld);
+}
+.memo td {
+  color: var(--weld);
+}
+.zero {
+  color: var(--weld);
+}
+
+/* ---- the annotated cell: value on the first ruled line, note on the second ---- */
+/* (must outrank the padding shorthand on `table.table tbody td` above) */
+table.table tr.annotated > * {
+  padding-bottom: 38px;
+}
+.noteCell {
+  position: relative;
+}
+.note {
+  position: absolute;
+  left: 8px;
+  top: 34px;
+  font: 400 11px/16px var(--font-mono);
+  color: var(--weld);
+  white-space: nowrap;
+}
+
+/* ---- labels: full on wide screens, short under 720px so the sticky column stays narrow ---- */
+.short {
+  display: none;
+}
+@media (max-width: 720px) {
+  .long {
+    display: none;
+  }
+  .short {
+    display: inline;
+  }
+  table.table tbody th,
+  table.table tfoot th,
+  table.table thead th.corner {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 12px;
+  }
+}
+
+/* visually hidden table caption for assistive tech */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}

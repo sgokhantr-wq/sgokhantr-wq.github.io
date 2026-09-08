@@ -1,0 +1,106 @@
+/* CertificateLines — the borrowing-base certificate register.
+   Every row is 6px + 19px + 6px + a 1px rule = one 32px ruling, so the cell borders
+   fall exactly on the DocumentFrame ruling behind them. */
+
+.table {
+  width: 100%;
+}
+
+.table thead th,
+.table tbody th,
+.table tbody td,
+.table tfoot td {
+  padding: 6px 10px;
+  line-height: 19px;
+  vertical-align: top;
+}
+
+/* Row headers carry the line name: plain ink, wrapping allowed, never the stamped column-head face. */
+.table tbody th {
+  font: 400 13px/19px var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  background: none;
+  text-align: left;
+  border-bottom: 1px solid var(--hairline);
+  white-space: normal;
+}
+
+/* The line name is the only column that may wrap; it takes all the slack, and only breaks
+   inside a word once it has nothing else left to give. */
+.line {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.qualifier {
+  color: var(--weld);
+}
+
+/* Figures never wrap. */
+.table :global(.num),
+.n,
+.match {
+  white-space: nowrap;
+}
+
+.n {
+  width: 1%;
+  color: var(--slate);
+}
+
+.match {
+  width: 1%;
+  font-weight: 700;
+}
+
+.total th,
+.total td {
+  font-weight: 700;
+}
+
+/* An ink rule above the foot, whichever cell wins the collapsed border. */
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom-color: var(--ink);
+}
+
+/* The foot may run to two lines; paint it so the ruling does not show through the wrap. */
+.table tfoot td {
+  background: var(--sheet);
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .table thead th,
+  .table tbody th,
+  .table tbody td,
+  .table tfoot td {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
+@media (max-width: 420px) {
+  .table,
+  .table tbody th {
+    font-size: 12px;
+  }
+  .table thead th,
+  .table tbody th,
+  .table tbody td,
+  .table tfoot td {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}

@@ -23,10 +23,11 @@ const RULES = [
   { re: /\bM3\b/, why: 'employer name', minified: false },
   { re: /m3hvac|m3\s*mechanical/i, why: 'employer domain or name', minified: true },
   { re: /buildops/i, why: 'SaaS vendor name', minified: true },
-  { re: /bench refresh/i, why: 'old terminal line', minified: true },
   { re: /\$\s?\d/, why: 'dollar figure', minified: false },
   { re: /\b(nemotron|glm-?5|minimax|gemma)\b/i, why: 'model tag', minified: true },
-  { re: /\b[3-5]\d{4}\b/, why: 'looks like a job or invoice number', minified: false },
+  // Job and invoice numbers here are five digits starting 3-5. A number joined by a hyphen is
+  // part of a standard's name (MIL-DTL-38999), not a job.
+  { re: /(?<![-\w])[3-5]\d{4}(?![-\w])/, why: 'looks like a job or invoice number', minified: false },
   { re: /\b(lessen|sigler|casco|hc pacific|wells fargo|citadel|payrunner|apopka)\b/i, why: 'customer, vendor or lender name', minified: true },
   { re: /\b(Angela|Tony|Rick|Nicholas|Vanessa|Cathy|Francine|Ulloa)\b/, why: 'employee name', minified: false },
 ]

@@ -1,59 +1,61 @@
-# sgokhantr-wq.github.io
+# gokhan.sahin — personal website
 
-Gokhan Sahin's personal site: one sheet promoting **FieldOps** (a field-service ERP built solo on
-Frappe/ERPNext since 2026-05-14) and **Centaurus AI** (its AI layer) to hiring managers.
-Live at https://sgokhantr-wq.github.io/.
+Personal site of Gokhan Sahin: systems designer & tools builder for manufacturing and
+field-service operations (ERP architecture, planning engines, data pipelines, AI automation).
 
-The design is a filled-in contractor's form: the "Continuation Sheet". Steel-biased paper, blue-black
-ink, one safety-orange stamp colour, a condensed industrial display face, a quiet humanist body and a
-cockpit mono for every figure. No hero, no gradients, no icons, radius 0. Every section is a document
-with ruled columns carrying real, measured engineering numbers; every mockup carries synthetic data.
+**Live:** https://sgokhantr-wq.github.io/gokhans/
 
-## Stack
+**Stack:** React 19 · TypeScript · Vite · Tailwind CSS · framer-motion · recharts · three.js
 
-Vite 7 · React 19 · TypeScript · plain CSS (tokens + CSS Modules) · self-hosted fonts via @fontsource.
-No Tailwind, no animation library, no router, no icon or chart library.
+## Pages
 
-```
+| Route | What it is |
+|---|---|
+| `/` | Home — animated terminal, system architecture map, tools bento, stats |
+| `/fieldops` | Platform deep-dive — the 2026 field-service ERP: architecture, 40 modules, integrations, verification, timeline |
+| `/portfolio` | Case studies in two groups: the field-service ERP platform (2026) and earlier manufacturing work |
+| `/centaurus` | Centaurus AI — the ERP's AI layer: capabilities, guardrails, two deployments (three.js) |
+| `/live-demo` | Interactive production-planning simulators (MRP, BOM netting, digital twin) |
+| `/skills` | Full skill profile: systems design, tool building, operations leadership |
+| `/contact` | Contact info + form (opens a prefilled email — no backend needed) |
+
+Heavy pages (`/fieldops`, `/live-demo`, `/centaurus`) are lazy-loaded so the home page stays light.
+
+## Where the content lives
+
+All copy and data is in `src/content/` (typed by `src/types.ts`); components only render it.
+
+| File | Drives |
+|---|---|
+| `site.ts` | Name, email, LinkedIn, resume filename, the nav (navbar + mobile menu + footer) |
+| `tools.ts` | Home bento tiles |
+| `stats.ts` | Home stat row, Skills stat pills |
+| `terminal.ts` | The animated terminal script |
+| `stack.ts` | Home marquee |
+| `architecture.ts` | Home architecture map (nodes + edges) |
+| `caseStudies.ts` | Portfolio groups and cards |
+| `fieldops.ts` | Everything on `/fieldops` |
+| `centaurus.ts` | Everything on `/centaurus` |
+| `skills.ts` | Skill sections |
+
+Colours in content are `accent` keys (`emerald` / `sky` / `amber` / `zinc`) resolved by
+`src/components/ui/accents.ts`, so Tailwind always sees the full class names.
+
+## Development
+
+```bash
 npm install
-npm run dev        # http://localhost:5173
-npm run lint       # eslint + the copy contract (scripts/verify-copy.mjs)
-npm run build      # tsc -b, vite build, then verify-copy over dist/
-npm run og         # after build: rasterize og.html → public/og.png (needs Chrome on this machine)
-npm run shoot      # after build: screenshots + overflow/opacity/focus/banned-text checks → shots/
+npm run dev       # local dev server (served at /)
+npm run lint
+npm run build     # typecheck + production build to dist/
+npm run preview   # serve the production build locally at http://localhost:4173/
 ```
 
-Deploys to GitHub Pages from `main` via `.github/workflows/deploy.yml`. `og.png` is committed, not
-rendered in CI.
+## Deployment
 
-## Where things live
+Every push to `main` deploys twice: Vercel builds it at the domain root, and
+`.github/workflows/deploy.yml` lints, builds and publishes `dist/` to GitHub Pages under
+`/gokhans/`. `vite.config.ts` picks the base path from the `GITHUB_ACTIONS` env var, and
+`src/lib/assets.ts` resolves `public/` files against whichever base is active.
 
-- `src/content/` — all copy. `proof.ts` is the registry of every claim with the number behind it;
-  `totals.ts` the header totals with the command that measured each; `milestones.ts` the build log;
-  `replaced.ts`, `earlier.ts`, `withheld.ts`, `site.ts`.
-- `src/components/` — the form primitives: `Stamp`, `DocumentFrame`, `Register`, `Section`, `Note`,
-  `SheetHeader`, `SignatureBlock`, `Nav`, `ThemeToggle`, `OgCard`.
-- `src/mockups/` — the eight illustrated documents (month board, 13-week cash grid, certificate lines,
-  G703 sheet, job topic, Centaurus chat, guard log, build grid). Each ships its own `data.ts` headed
-  "synthetic".
-- `src/styles/tokens.css` — both themes at token level. `base.css` — reset and shared primitives.
-
-## The content contract (enforced by `scripts/verify-copy.mjs`)
-
-- The employer is "a commercial HVAC & mechanical contractor (~70 field staff, ~200 live jobs)".
-  Never its name or domain.
-- The field-service SaaS is "the field-service SaaS". Never the vendor.
-- No absolute dollar figure from the company's books. Engineering scale, record volumes,
-  percentages, X→Y improvements, timings and test counts are fine.
-- No customer, employee, lender or vendor names. No job, quote or invoice numbers.
-- No model tags: "a hosted open-weight model via Ollama".
-- Withheld on purpose (kept as `publishable: false` in `proof.ts` so they cannot be re-added by
-  accident): backlog-vs-capacity hours, per-job dollar magnitudes, tax-compliance stats, security
-  findings, the model-egress story, headcount reconciliations, customer/city counts, endpoint
-  re-gating, and anything recorded as unproven live.
-
-## Re-measuring the totals
-
-Each entry in `src/content/totals.ts` carries the command that produced it. Re-run them against the
-bench, update the values, and bump `SITE.measuredOn` in `src/content/site.ts`; every stamp and the
-footer read that constant.
+Routing uses `HashRouter`, so deep links are `/#/route` (or `/gokhans/#/route` on Pages) and no 404 fallback is needed.

@@ -1,23 +1,24 @@
 {
-  "name": "sgokhantr-wq.github.io",
+  "name": "gokhan-sahin",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && node scripts/verify-copy.mjs dist",
     "lint": "eslint . && node scripts/verify-copy.mjs",
-    "check:copy": "node scripts/verify-copy.mjs",
     "preview": "vite preview",
-    "og": "node scripts/og-render.mjs",
-    "shoot": "node scripts/shoot.mjs"
+    "check:copy": "node scripts/verify-copy.mjs"
   },
   "dependencies": {
-    "@fontsource-variable/big-shoulders-display": "^5.3.0",
-    "@fontsource/b612-mono": "^5.3.0",
-    "@fontsource/source-sans-3": "^5.3.0",
+    "@types/three": "^0.181.0",
+    "framer-motion": "^12.23.25",
+    "lucide-react": "^0.554.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.6",
+    "recharts": "^3.5.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -25,11 +26,13 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.22",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "playwright-core": "^1.63.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

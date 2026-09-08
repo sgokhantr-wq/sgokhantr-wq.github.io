@@ -1,0 +1,60 @@
+/* Design tokens — "Continuation Sheet".
+   Light is the bare :root (steel-biased paper). Dark is the carbon copy, resolved by
+   prefers-color-scheme unless the DAY/NIGHT stamp has stored an explicit choice. */
+:root {
+  color-scheme: light;
+  --sheet: #ECEFF3;       /* page ground */
+  --galvanized: #DDE3EA;  /* panels, header bands, hover rows, chip tint 1 */
+  --hairline: #C5CDD6;    /* 1px rules, cell borders, ledger ruling, chip tint 2 */
+  --zinc: #AEB9C5;        /* chip tint 3 */
+  --weld: #5C6774;        /* column heads, captions (mono caps >= 12px) */
+  --slate: #3A4451;       /* secondary text */
+  --ink: #171C23;         /* body + display text */
+  --marking: #E64F00;     /* stamps, the margin rule; non-text or >= 24px only */
+  --accent: #B5380B;      /* links, focus ring, small stamped caps, BLOCKED verdicts */
+
+  --font-display: 'Big Shoulders Display Variable', 'Bahnschrift Condensed', 'Arial Narrow',
+    'Franklin Gothic Medium', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'B612 Mono', 'IBM Plex Mono', Consolas, 'Liberation Mono', monospace;
+
+  --container: 1200px;
+  --gutter: 24px;
+  --margin-col: 88px;   /* the ledger margin column on >= 1024px */
+  --rule-x: 44px;       /* where the 2px margin rule sits inside that column */
+  --ruling: 32px;       /* ledger ruling pitch inside document panels */
+  --nav-h: 44px;
+  --motion: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --sheet: #1B2129;
+    --galvanized: #262E38;
+    --hairline: #3A4450;
+    --zinc: #4E5A68;
+    --weld: #93A0AE;
+    --slate: #C0C9D3;
+    --ink: #ECEFF3;
+    --marking: #E64F00;
+    --accent: #FF7A2E;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --sheet: #1B2129;
+  --galvanized: #262E38;
+  --hairline: #3A4450;
+  --zinc: #4E5A68;
+  --weld: #93A0AE;
+  --slate: #C0C9D3;
+  --ink: #ECEFF3;
+  --marking: #E64F00;
+  --accent: #FF7A2E;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --motion: 0; }
+}
